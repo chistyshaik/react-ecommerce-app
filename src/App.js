@@ -1,23 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import AppRouter from "./AppRouter";
+import { API_ENDPOINTS } from "./Constants";
+import './App.css'
 
 function App() {
+  const [products , setProducts] = useState([]);
+
+  useEffect(()=>{
+    fetch(API_ENDPOINTS.PRODUCTS)
+    .then( res => res.json())
+    .then( res => setProducts(res.products))
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h2>E commerce app</h2>
+      <AppRouter products={products}/>
     </div>
   );
 }
