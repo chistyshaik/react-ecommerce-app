@@ -1,8 +1,9 @@
 import React from 'react';
 import ProductCard from './ProductCard';
+import { useAppContext } from '../contexts/AppProvider';
 
-export default function ProductList({products}) {
-    console.log("products list comp" , products)
+export default function ProductList() {
+  const {products} = useAppContext()
   return (
     <div>
       <h3>Products</h3>

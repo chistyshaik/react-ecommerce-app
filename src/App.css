@@ -1,3 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
 .productsList{
   display: flex;
   flex-wrap: wrap;
@@ -10,6 +15,7 @@
   margin: 16px;
   width: 200px;
   text-align: center;
+  display: inline;
 }
 
 .productCard img{
