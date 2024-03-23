@@ -11,7 +11,8 @@ const FIREBASE_AUTH_ERRORS = {
     'auth/invalid-email' : "Invalid Email, Please enter a valid email",
     'auth/invalid-credential' : "Invalid Password , Please enter a Valid Email/ Password",
     'auth/missing-password' : 'Please enter a Password',
-    'auth/email-already-in-use' : 'Email already exists'
+    'auth/email-already-in-use' : 'Email already exists',
+    'auth/weak-password' : 'Please enter  a strong password'
 }
 
 function UserProvider({children}) {
