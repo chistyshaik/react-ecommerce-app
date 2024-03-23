@@ -2,14 +2,17 @@ import AppRouter from "./AppRouter";
 import './App.css'
 import AppProvider from "./contexts/AppProvider";
 import PageHeader from "./components/PageHeader";
+import UserProvider from "./contexts/UserProvider";
 
 function App() {
   return (
     <AppProvider>
-      <div className="App">
-        <PageHeader/>
-        <AppRouter/>
-      </div>
+      <UserProvider>
+        <div className="App">
+          <PageHeader/>
+          <AppRouter/>
+        </div>
+      </UserProvider>
     </AppProvider>
   );
 }

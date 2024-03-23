@@ -1,35 +1,31 @@
-import React, { useState } from 'react';
-import {firebaseApp} from '../fireBase';
-import {getAuth , createUserWithEmailAndPassword , signInWithEmailAndPassword } from 'firebase/auth'
+import React, { useEffect, useState } from 'react';
+import { useUserContext } from '../contexts/UserProvider';
 
 export default function AuthenticationView({ isLogin }) {
    const [ email , setEmail] = useState('');
    const [ password , setPassword] = useState('');
+
+   const {doLogin , doSignUp , error , clearErrors } = useUserContext(); 
+  
    const title = isLogin ? "Login" : "Sign Up" ;
 
    const handleAuthentication = (event) => {
-    const formData = {
-      email,
-      password
-    }
-    console.log(title, isLogin, formData)
     event.preventDefault();
-
-    const auth = getAuth(firebaseApp);
-
-    if(isLogin){
-      signInWithEmailAndPassword(auth, email, password)
-      .then(res => console.log("res", res))
-    }else{
-      createUserWithEmailAndPassword(auth, email, password)
-      .then(fireRes => console.log(fireRes))
-      .catch(error => console.log(error))
-    }
+    console.log({doLogin , doSignUp , error});
+    (isLogin ? doLogin : doSignUp)(email , password)
   }
+
+  useEffect(() => {
+    clearErrors();
+  } , [isLogin])
 
   return (
     <form onSubmit={handleAuthentication}>
         <h2>{title}</h2>
+
+        <div>
+        { error && <div> {error}</div> }
+        </div>
         <input 
         type="email"
         placeholder='email'

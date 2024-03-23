@@ -4,6 +4,7 @@ import Home from './components/Home';
 import ProductDetails from './components/ProductDetails';
 import ProductList from './components/ProductList';
 import AuthenticationView from './components/AuthenticationView';
+import LogOut from './components/LogOut';
 
 
 export default function AppRouter({children , products}) {
@@ -14,6 +15,7 @@ export default function AppRouter({children , products}) {
       <Route path ="/signup" render = {routerProps => <AuthenticationView {...routerProps} isLogin={false} />} />
       <Route exact path ="/products" component =  {ProductList} />
       <Route path ="/products/:id" component = {ProductDetails} />
+      <Route path ="/logout" component = {LogOut} />
     </Switch>
   )
 }
