@@ -1,11 +1,12 @@
 import React from 'react'
 import { useAppContext } from '../contexts/AppProvider';
+import UIButton from './UIButton';
 
 export default function ProductDetails({match , ...props}) {
   const {params} = match;
   const {id} = params;
 
-  const {products} = useAppContext();
+  const {products , addProductToCart} = useAppContext();
 
   const product = products.find( product => product.id == id);
 
@@ -13,13 +14,36 @@ export default function ProductDetails({match , ...props}) {
     return <p>No product foundd......</p>
   }
 
+  const {images, title, price, description} = product;
+  const [mainImage] = images;
+
+  const addCartItem = () => {
+    addProductToCart(product);
+    console.log('product added to cart', product);  
+  }
+
   return (
-    <div>
-      <p>Product Details : {id} </p>
-      <img src={product.images[0]} alt={product.title} />
-      <h3>{product.title}</h3>
-      <h4>Rs {product.price}/-</h4>
-      <pre>{JSON.stringify(params, null, 2)}</pre>
+    <>
+    <div className='container mx-auto px-16 py-6'>
+      <div className='flex gap-4'>
+        <img src={mainImage} alt={title} className='w-1/3 rounded-lg'/>
+        <div className='w-2/3 '>
+          <h2 className='text-2xl font-semibold'>{title}</h2>
+          <p className='mt-2 text-gray-600'>{description}</p>
+          <p className='mt-4 text-2xl'>Rs.{price}/-</p>
+          <UIButton onClick = {addCartItem}>Add Product to Cart</UIButton>
+        </div>
+      </div>
+      <div className='flex gap-8 mt-4'>
+        {
+          images.map((imageUrl)=>(<div key={imageUrl} className='w-1/5'>
+            <img src={imageUrl} alt={title} className='w-full rounded border object-cover'/>
+          </div>
+          ))
+        }
+      </div>
+      {/* <pre>{JSON.stringify(params, null, 2)}</pre> */}
     </div>
+    </>
   )
 }
