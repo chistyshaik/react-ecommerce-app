@@ -9,7 +9,7 @@ const AppContext = createContext({
 function AppProvider({children}) {
     const [products , setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [cartItems , setCartItems] = useState([]); //array base cart manipulation its is slow
+    // const [cartItems , setCartItems] = useState([]); //array base cart manipulation its is slow
     const [cartProducts , setCartProducts] = useState({}); // Object based cart manipulation it is fast
 
     useEffect(()=>{
@@ -19,15 +19,15 @@ function AppProvider({children}) {
     }, [])
   
     const addProductToCart = (product) => {
-      let addedProduct = cartItems.find(cartProduct => cartProduct.id == product.id);
-      if(!addedProduct){
-        addedProduct = product;
-        addedProduct.quantity = 1;
-      }else{
-        addedProduct.quantity++;
-      }
-      const filteredItems = cartItems.filter(cartProduct => cartProduct.id !== product.id);
-      setCartItems([...filteredItems, addedProduct])
+      // let addedProduct = cartItems.find(cartProduct => cartProduct.id == product.id);
+      // if(!addedProduct){
+      //   addedProduct = product;
+      //   addedProduct.quantity = 1;
+      // }else{
+      //   addedProduct.quantity++;
+      // }
+      // const filteredItems = cartItems.filter(cartProduct => cartProduct.id !== product.id);
+      // setCartItems([...filteredItems, addedProduct])
 
       let cartProduct = cartProducts[product.id];
       if(!cartProduct){
@@ -39,13 +39,22 @@ function AppProvider({children}) {
       setCartProducts({...cartProducts , [product.id]: cartProduct})
     }
 
+    const productById = {};
+    products.forEach( (product) => {
+      productById[product.id] = product;
+    })
+
+    const cartCount = Object.values(cartProducts).length;
+
   return (
     <AppContext.Provider value = {{
         products,
+        productById,
         loading,
         setLoading,
-        cartItems,
+        // cartItems,
         cartProducts,
+        cartCount,
         addProductToCart,
     }}>
         {children}

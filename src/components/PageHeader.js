@@ -5,7 +5,7 @@ import { useAppContext } from '../contexts/AppProvider';
 
 export default function PageHeader() {
   const {user} = useUserContext();
-  const {cartItems} = useAppContext();
+  const {cartCount} = useAppContext();
 
   return (
     <header className="bg-blue-500 flex justify-between p-4">
@@ -18,7 +18,7 @@ export default function PageHeader() {
         {user ? <div>{user.email}<Link className = "text-neutral-50 hover:text-slate-900" to='/logout'>LogOut</Link></div> : <>
         <Link className = "text-neutral-50 hover:text-slate-900" to='/login'>login</Link>
         <Link className = "text-neutral-50 hover:text-slate-900" to='/signup'>signup</Link>
-        <Link className = "text-neutral-50 hover:text-slate-900" to='/cart'>Cart-Items({cartItems.length})</Link>
+        <Link className = "text-neutral-50 hover:text-slate-900" to='/cart'>Cart-Items({cartCount})</Link>
         </> }
       </nav>
     </header>

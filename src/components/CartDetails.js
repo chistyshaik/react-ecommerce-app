@@ -1,53 +1,40 @@
 import React from 'react';
 import { useAppContext } from '../contexts/AppProvider';
+import UIButton from '../components/UIButton';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default function CartDetails() {
-  const { cartItems , cartProducts } = useAppContext();
+  const {  cartProducts } = useAppContext();
+  const products = Object.values(cartProducts);
+
+  let total = 0;
+  products.forEach(({price, quantity})=>(
+    total = total + (price * quantity)
+  ))
 
   return (
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <th>Product Name</th>
-            <th>Quantity</th>
-            <th>Product Price</th>
-            <th>Total Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          {cartItems.map((item) => ( //array based cart manipulation 
-            <tr key={item.id}>
-              <td>{item.title}</td>
-              <td>{item.quantity}</td>
-              <td>{item.price}</td>
-              <td>{item.price * item.quantity}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Product Name</th>
-            <th>Quantity</th>
-            <th>Product Price</th>
-            <th>Total Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Object.values(cartProducts).map((item) => ( // object based cart manipulation
-            <tr key={item.id}>
-              <td>{item.title}</td>
-              <td>{item.quantity}</td>
-              <td>{item.price}</td>
-              <td>{item.price * item.quantity}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
+    <div className='container mx-auto px-16 py-8'>
+      <h2 className='text-xl font-semibold'>Cart Details</h2>
+     {
+      products.length > 0 ? <div>
+        {products.map(({
+          id,
+          thumbnail,
+          title,
+          price,
+          quantity
+        }) => <div className='flex items-center gap-4 mb-4 pb-2 border-b-2 border-slate-400'>
+          <img className = "w-40" src={thumbnail} alt={title} />
+          <div className='flex-1'>
+            <Link className='text-xl font-semibold' to= {`/products/${id}`} >{title}</Link>
+            <p>{quantity == 1 ? price : `${quantity} x ${price} = ${quantity* price} /- `}</p>
+          </div>
+        </div>)
+        }
+      </div> : "Your cart is empty"
+     }
+     <h2 className='text-xl font-semibold' >Total Price : Rs {total} /- </h2>
+     <UIButton>Proceed to checkout</UIButton>
     </div>
   );
 }

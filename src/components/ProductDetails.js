@@ -6,9 +6,10 @@ export default function ProductDetails({match , ...props}) {
   const {params} = match;
   const {id} = params;
 
-  const {products , addProductToCart} = useAppContext();
+  const {productById, addProductToCart, cartProducts} = useAppContext();
 
-  const product = products.find( product => product.id == id);
+  const product = productById[id];
+  const cartProductInfo = cartProducts[id];
 
   if(!product){
     return <p>No product foundd......</p>
@@ -28,7 +29,10 @@ export default function ProductDetails({match , ...props}) {
       <div className='flex gap-4'>
         <img src={mainImage} alt={title} className='w-1/3 rounded-lg'/>
         <div className='w-2/3 '>
-          <h2 className='text-2xl font-semibold'>{title}</h2>
+          <div className='flex justify-between'>
+            <h2 className='text-2xl font-semibold'>{title}</h2>
+            <h3 className='text-xl font-semibold' >Quantity : {cartProductInfo ? cartProductInfo.quantity : 0 }</h3>
+          </div>
           <p className='mt-2 text-gray-600'>{description}</p>
           <p className='mt-4 text-2xl'>Rs.{price}/-</p>
           <UIButton onClick = {addCartItem}>Add Product to Cart</UIButton>
