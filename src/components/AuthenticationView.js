@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useUserContext } from '../contexts/UserProvider';
+import {useHistory, Redirect } from 'react-router-dom';
 import UIinputField from './UIinputField';
 import UIButton from './UIButton';
 
 export default function AuthenticationView({ isLogin }) {
    const [ email , setEmail] = useState('');
    const [ password , setPassword] = useState('');
+   const history = useHistory();
 
-   const {doLogin , doSignUp , error , clearErrors } = useUserContext(); 
+   const {doLogin , doSignUp , error , clearErrors, user } = useUserContext(); 
   
    const title = isLogin ? "Login" : "Sign Up" ;
 
@@ -20,6 +22,14 @@ export default function AuthenticationView({ isLogin }) {
   useEffect(() => {
     clearErrors();
   } , [isLogin])
+
+  // useEffect(()=>{
+  //   if(user){
+  //   history.push('/');
+  //   }
+  // }, [user])
+
+  if(user) return <Redirect to='/'/>
 
   return (
     <form onSubmit={handleAuthentication} className='bg-blue-100  rounded max-w-xs mx-auto mt-8 p-4'>

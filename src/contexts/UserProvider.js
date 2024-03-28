@@ -1,5 +1,6 @@
 import React , {createContext, useContext, useState} from 'react';
 import { firebaseApp } from '../fireBase';
+import {useHistory} from 'react-router-dom'
 import { getAuth , createUserWithEmailAndPassword , signInWithEmailAndPassword } from 'firebase/auth'; 
 
 const UserContext = createContext({
@@ -15,10 +16,21 @@ const FIREBASE_AUTH_ERRORS = {
     'auth/weak-password' : 'Please enter  a strong password'
 }
 
+const APP_USER = "APP_USER"
+
 function UserProvider({children}) {
-  const [user , setUser] = useState(null);
+  const localUser = localStorage.getItem(APP_USER)
+  const [user , setUser] = useState(localUser ? JSON.parse(localUser) : null);
   const [error , setError ] = useState(null);
   const auth = getAuth(firebaseApp);
+  const history = useHistory();
+
+
+  const saveUser = user=>{
+    localStorage.setItem(APP_USER , JSON.stringify(user));
+    setUser(user);
+    history.push('/products');
+  }
 
   const doLogin = (email , password) => {
     clearErrors();
@@ -27,8 +39,8 @@ function UserProvider({children}) {
         email,
         password
         ).then( res => {
-            console.log("Login Res", res)
-            setUser(res.user)
+            console.log("Login Success", res)
+            saveUser(res.user)
         }).catch( error => {
             var msg = FIREBASE_AUTH_ERRORS[error.code]
             console.log( " Login error", error.code , msg);
@@ -44,7 +56,7 @@ function UserProvider({children}) {
         password
         ).then( res => {
             console.log("SignUp Res", res)
-            setUser(res.user)
+            saveUser(res.user)
         }).catch( error => {
             var msg = FIREBASE_AUTH_ERRORS[error.code]
             console.log( " SignUp error", error.code , msg);
