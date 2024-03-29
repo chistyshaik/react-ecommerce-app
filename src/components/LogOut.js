@@ -5,6 +5,7 @@ export default function LogOut() {
     const { logout } = useUserContext();
 
   useEffect(() => {
+    localStorage.clear();
     logout()
   }, [])
 

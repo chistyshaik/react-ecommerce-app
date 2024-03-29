@@ -6,11 +6,15 @@ const AppContext = createContext({
     loading : true
 });
 
+const CART_PRODUCTS = 'CART_PRODUCTS';
+const localCartItems = localStorage.getItem(CART_PRODUCTS);
+const parseLocalCartItems = JSON.parse(localCartItems ? localCartItems : '{}')
+
 function AppProvider({children}) {
     const [products , setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     // const [cartItems , setCartItems] = useState([]); //array base cart manipulation its is slow
-    const [cartProducts , setCartProducts] = useState({}); // Object based cart manipulation it is fast
+    const [cartProducts , setCartProducts] = useState(parseLocalCartItems); // Object based cart manipulation it is fast
 
     useEffect(()=>{
       fetch(API_ENDPOINTS.PRODUCTS)
@@ -38,6 +42,11 @@ function AppProvider({children}) {
       }
       setCartProducts({...cartProducts , [product.id]: cartProduct})
     }
+
+    useEffect(()=>{
+      JSON.stringify()
+      localStorage.setItem(CART_PRODUCTS, JSON.stringify(cartProducts))
+    },[cartProducts])
 
     const productById = {};
     products.forEach( (product) => {

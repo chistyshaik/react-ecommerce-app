@@ -18,8 +18,8 @@ export default function PageHeader() {
         {user ? <div>{user.email}<Link className = "text-neutral-50 hover:text-slate-900" to='/logout'>LogOut</Link></div> : <>
         <Link className = "text-neutral-50 hover:text-slate-900" to='/login'>login</Link>
         <Link className = "text-neutral-50 hover:text-slate-900" to='/signup'>signup</Link>
-        <Link className = "text-neutral-50 hover:text-slate-900" to='/cart'>Cart-Items({cartCount})</Link>
         </> }
+        <Link className = "text-neutral-50 hover:text-slate-900" to='/cart'>Cart-Items({cartCount})</Link>
       </nav>
     </header>
   )

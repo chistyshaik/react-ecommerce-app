@@ -1,16 +1,21 @@
 import React from 'react';
 import { useAppContext } from '../contexts/AppProvider';
 import UIButton from '../components/UIButton';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default function CartDetails() {
   const {  cartProducts } = useAppContext();
   const products = Object.values(cartProducts);
+  const history = useHistory();
 
   let total = 0;
   products.forEach(({price, quantity})=>(
     total = total + (price * quantity)
   ))
+
+  const handlecheckout = () => {
+    history.push('/checkout');
+  }
 
   return (
     <div className='container mx-auto px-16 py-8'>
@@ -34,7 +39,7 @@ export default function CartDetails() {
       </div> : "Your cart is empty"
      }
      <h2 className='text-xl font-semibold' >Total Price : Rs {total} /- </h2>
-     <UIButton>Proceed to checkout</UIButton>
+     <UIButton onClick= {handlecheckout}>Proceed to checkout</UIButton>
     </div>
   );
 }
